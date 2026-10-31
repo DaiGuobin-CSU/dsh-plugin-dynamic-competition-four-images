@@ -11,16 +11,21 @@
         "en": "A DSH plugin based on dynamic competition theory, with skills governed by the four images model.",
         "zh": "基于动态竞争理论的DSH插件，包含四图模型治理技能。"
       },
-      "version": "1.0.0",
       "icon": "icons/dynamic-competition-four-images.svg",
       "keywords": ["dsh-plugin", "analysis", "competition"],
-      "engines": {
-        "dsh": ">=0.2.1-rc.5"
-      },
-      "source": {
-        "type": "npm",
-        "name": "dsh-plugin-dynamic-competition-four-images"
-      }
+      "versions": [
+        {
+          "version": "1.0.0",
+          "publishTimestamp": "2026-10-31T00:00:00Z",
+          "engines": {
+            "dsh": ">=0.2.1-rc.5"
+          },
+          "source": {
+            "type": "npm",
+            "name": "dsh-plugin-dynamic-competition-four-images"
+          }
+        }
+      ]
     }
   ]
 }
