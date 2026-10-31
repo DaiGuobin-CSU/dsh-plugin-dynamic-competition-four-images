@@ -1,42 +1,26 @@
 {
-  "format": 1,
-  "title": {
-    "en": "Dynamic Competition - Four Symbols Model Skill",
-    "zh": "动态竞争-四象模型Skill"
+  "name": "dsh-plugin-dynamic-competition-four-images",
+  "version": "1.0.1",
+  "description": "DSH plugin based on dynamic competition theory with skills governed by the four images model.",
+  "main": "index.js",
+  "files": [
+    "index.js",
+    "cordis.patch.yml",
+    "SKILL.md"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "description": {
-    "en": "Community index for dynamic competition  four-images skills.",
-    "zh": "动态竞争-四象模型技能社区索引"
-  },
-  "plugins": [
-    {
-      "name": "dsh-plugin-dynamic-competition-four-images",
-      "title": {
-        "en": "Dynamic Competition - Four Symbols Model Skill",
-        "zh": "动态竞争-四象模型Skill"
-      },
-      "description": {
-        "en": "A DSH plugin based on dynamic competition theory, with skills governed by the four images model.",
-        "zh": "基于动态竞争理论的DSH的Skill插件，经过以四象模型为框架的改进。"
-      },
-      "icon": "icons/fim.png",
-      "keywords": [
-        "dsh-plugin",
-        "analysis",
-        "competition"
-      ],
-      "versions": [
-        {
-          "version": "1.0.0",
-          "publishTimestamp": 1761760800,
-          "engines": {
-            "dsh": ">=0.2.1-rc.5"
-          },
-          "source": {
-            "type": "npm"
-          }
-        }
-      ]
+  "keywords": [
+    "dsh-plugin",
+    "analysis",
+    "competition"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
     }
-  ]
+  }
 }
