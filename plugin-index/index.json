@@ -1,5 +1,13 @@
 {
   "format": 1,
+  "title": {
+    "en": "DSH Dynamic Competition Skills",
+    "zh": "DSH 动态竞争技能库"
+  },
+  "description": {
+    "en": "Community index for dynamic competition four-images skills.",
+    "zh": "动态竞争四图模型技能社区索引"
+  },
   "plugins": [
     {
       "name": "dsh-plugin-dynamic-competition-four-images",
@@ -12,17 +20,20 @@
         "zh": "基于动态竞争理论的DSH插件，包含四图模型治理技能。"
       },
       "icon": "icons/dynamic-competition-four-images.svg",
-      "keywords": ["dsh-plugin", "analysis", "competition"],
+      "keywords": [
+        "dsh-plugin",
+        "analysis",
+        "competition"
+      ],
       "versions": [
         {
           "version": "1.0.0",
-          "publishTimestamp": "2026-10-31T00:00:00Z",
+          "publishTimestamp": 1761760800,
           "engines": {
             "dsh": ">=0.2.1-rc.5"
           },
           "source": {
-            "type": "npm",
-            "name": "dsh-plugin-dynamic-competition-four-images"
+            "type": "npm"
           }
         }
       ]
