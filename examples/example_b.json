@@ -1,0 +1,62 @@
+{
+  "inputs": {
+    "focal_firm": "A 区域连锁药店",
+    "rivals": [
+      "B 全国折扣药房"
+    ],
+    "question": "B 进入本地市场后，A 是否应跟进降价？",
+    "horizon": "2025-01/2025-12",
+    "scope": "华东某三线城市社区药房",
+    "goal": "defend",
+    "depth": "quick",
+    "evidence_level": "public",
+    "subject_tags": {
+      "role": "战略管理者"
+    },
+    "env_features": {
+      "task": "对手分析",
+      "context": "新进入者"
+    }
+  },
+  "assessments": {
+    "market_commonality": {
+      "B 全国折扣药房": 3
+    },
+    "resource_similarity": {
+      "B 全国折扣药房": 2
+    },
+    "events": [
+      {
+        "t": "2025-03",
+        "actor": "B 全国折扣药房",
+        "action": "本地开店并低价促销",
+        "attrs": {
+          "volume": 2,
+          "complexity": 2,
+          "visibility": 4,
+          "type": "tactical"
+        },
+        "response": {
+          "actor": "A 区域连锁药店",
+          "type": "none",
+          "lag": "",
+          "match": ""
+        },
+        "source": "公开报道"
+      }
+    ],
+    "amc": {
+      "B 全国折扣药房": {
+        "awareness": 2,
+        "motivation": 3,
+        "capability": null,
+        "evidence": [
+          "降价意愿明确",
+          "资金与供应链证据缺失"
+        ]
+      }
+    },
+    "contacts": 1,
+    "importance_symmetric": null
+  }
+}

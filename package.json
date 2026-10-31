@@ -1,0 +1,14 @@
+{
+  "name": "dsh-plugin-dynamic-competition-four-images",
+  "version": "1.0.0",
+  "description": "DSH plugin for dynamic competition four images",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "dsh-plugin"
+  ],
+  "author": "",
+  "license": "ISC"
+}
