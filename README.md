@@ -22,6 +22,6 @@
 https://rootandsource.github.io/dsh-plugin-dynamic-competition-four-images/plugin-index/index.json
 3. 搜索 “**动态竞争**” 或 “**四象**”，点击卡片即可安装。
 
-## 开源协议
+## 许可
 
-MIT，见 LICENSE。
+本项目采用 MIT 许可证，详情请见 [LICENSE](LICENSE)。
