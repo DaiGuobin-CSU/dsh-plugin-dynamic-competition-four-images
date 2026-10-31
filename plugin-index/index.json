@@ -19,7 +19,7 @@
         "en": "A DSH plugin based on dynamic competition theory, with skills governed by the four images model.",
         "zh": "基于动态竞争理论的DSH的Skill插件，经过以四象模型为框架的改进。"
       },
-      "icon": "icons/dynamic-competition-four-images.svg",
+      "icon": "icons/fim.png",
       "keywords": [
         "dsh-plugin",
         "analysis",
