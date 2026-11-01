@@ -16,8 +16,8 @@
         "zh": "动态竞争-四象模型Skill"
       },
       "description": {
-        "en": "A DSH plugin based on dynamic competition theory, with skills governed by the four images model.",
-        "zh": "基于动态竞争理论的DSH的Skill插件，经过以四象模型为框架的改进。"
+        "en": "A DSH plugin based on dynamic competition theory, with skills governed by the four images model. Since 1.1.0 the skill ships as a workspace skill, delivered only for the workspaces listed in its config.",
+        "zh": "基于动态竞争理论的DSH的Skill插件，经过以四象模型为框架的改进。自 1.1.0 起技能以工作区技能交付，仅在配置指定的工作区生效。"
       },
       "icon": "icons/fim-rounded.png",
       "keywords": [
@@ -26,6 +26,16 @@
         "competition"
       ],
       "versions": [
+        {
+          "version": "1.1.0",
+          "publishTimestamp": 1793462400,
+          "engines": {
+            "dsh": ">=0.2.1-rc.5"
+          },
+          "source": {
+            "type": "npm"
+          }
+        },
         {
           "version": "1.0.2",
           "publishTimestamp": 1761868800,
