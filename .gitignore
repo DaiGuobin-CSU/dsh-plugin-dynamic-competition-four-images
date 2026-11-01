@@ -1,0 +1,21 @@
+# 依赖与打包产物
+node_modules/
+*.tgz
+
+# 本地缓存与日志
+.npm-cache/
+npm-debug.log*
+pnpm-debug.log*
+yarn-error.log*
+*.log
+
+# 编辑器 / 系统噪音
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+
+# DSH 本地状态：工作区技能是交付物，必须入库
+.dsh/*
+!.dsh/skills/
+!.dsh/skills/**
