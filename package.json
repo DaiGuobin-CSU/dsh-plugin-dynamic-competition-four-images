@@ -1,6 +1,6 @@
 {
   "name": "dsh-plugin-dynamic-competition-four-images",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "动态竞争·四象模型技能插件：插件全局安装，技能在「设置 → 插件」里按工作区选择性添加，只写入你选择的工作区。",
   "type": "module",
   "main": "index.js",

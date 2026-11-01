@@ -13,8 +13,8 @@
 ## 🚀 安装
 
 1. 在 DSH 插件页面点击 **「+ 添加插件」**，输入包名 `dsh-plugin-dynamic-competition-four-images`，安装并启用。
-2. 退出并重启 DSH（宿主半边的技能桥在启动时注册）。
-3. 安装插件**不会**把技能放进任何工作区，需要按下一节手动添加。
+2. 重启 DSH，并**刷新页面**（宿主半边的技能桥在启动时注册，客户端页签在页面刷新后加载）。
+3. 打开 **设置 → 插件 → 四象模型** 确认页签出现；安装插件**不会**把技能放进任何工作区，需要按下一节手动添加。
 4. 若装到的版本比 npm 上的最新版本旧，见下文「版本与发布年龄窗口」。
 
 ## ⬆️ 版本与「发布年龄」窗口
@@ -25,7 +25,7 @@ DSH 的 profile 默认启用 pnpm 的 `minimumReleaseAge`（1440 分钟 = 24 小
 - **想立刻用上新版本**：在插件页重新安装并选择该版本，或用「包名@版本号」安装：
 
   ```powershell
-  dsh plugin --profile desktop add dsh-plugin-dynamic-competition-four-images@1.2.1
+  dsh plugin --profile desktop add dsh-plugin-dynamic-competition-four-images@<版本号>
   # PATH 里没有 dsh 时，用 DSH 安装目录下的 resources\runtime\cli\bin\dsh.cmd
   ```
 
@@ -33,11 +33,11 @@ DSH 的 profile 默认启用 pnpm 的 `minimumReleaseAge`（1440 分钟 = 24 小
 
   ```yaml
   minimumReleaseAgeExclude:
-    - dsh-plugin-dynamic-competition-four-images@1.2.1
+    - dsh-plugin-dynamic-competition-four-images@<版本号>
   ```
 
 - **不急的话**：等 24 小时后重新安装即可，不需要改任何配置。
-- 无论哪种方式，装完都要**重启 DSH** 才会加载新版本代码。
+- 无论哪种方式，装完都要**重启 DSH 并刷新页面**才会加载新版本代码。
 
 ## 🧩 把技能添加到工作区（UI）
 

@@ -8,7 +8,7 @@
  *   POST /api/dsh-plugin-dynamic-competition-four-images/install
  *   POST /api/dsh-plugin-dynamic-competition-four-images/versions
  *
- * `install` 把包内 `.dsh/skills/<name>/` 复制到用户选择的工作区
+ * `install` 把包内 `skills/<name>/` 复制到用户选择的工作区
  * `<workspace>/.dsh/skills/<name>/`，此后由 DSH 原生 filesystem provider 以
  * source `project-dsh` 发现，即成为该工作区的工作区技能。
  *
