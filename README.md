@@ -12,17 +12,10 @@
 
 ## 🚀 安装
 
-### 方式一：通过包名安装（推荐）
-
 1. 在 DSH 插件页面点击 **「+ 添加插件」**，输入包名 `dsh-plugin-dynamic-competition-four-images`，安装并启用。
 2. 退出并重启 DSH（宿主半边的技能桥在启动时注册）。
 3. 安装插件**不会**把技能放进任何工作区，需要按下一节手动添加。
-
-### 方式二：通过自定义插件市场安装
-
-1. 开启「自定义插件市场」，添加索引源 URL：
-   `https://rootandsource.github.io/dsh-plugin-dynamic-competition-four-images/plugin-index/index.json`
-2. 搜索「动态竞争」或「四象」，点击卡片安装并启用，然后重启 DSH。
+4. 若装到的版本比 npm 上的最新版本旧，见下文「版本与发布年龄窗口」。
 
 ## ⬆️ 版本与「发布年龄」窗口
 
@@ -92,8 +85,6 @@ dsh-plugin-dynamic-competition-four-images/
 ├── icon.svg                  # 插件图标
 ├── package.json              # dsh.bundle.patch + dsh.client
 ├── test/skill-installer.test.mjs
-├── release/                  # 打包产物（当前 + 历史版本 tarball）
-├── plugin-index/             # 自定义插件市场索引
 ├── skills/dynamic-competition-analysis-four-images-model/
     ├── SKILL.md
     ├── reference/four-images-model-governance.md

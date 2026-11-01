@@ -1,9 +1,6 @@
 # 依赖与打包产物
 node_modules/
 *.tgz
-# release/ 保存当前与历史版本的打包 tarball（npm pack 产物），需入库并随 release 分发
-!release/
-!release/*.tgz
 
 # 本地缓存与日志
 .npm-cache/
