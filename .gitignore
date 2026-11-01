@@ -18,7 +18,5 @@ Thumbs.db
 desktop.ini
 .idea/
 
-# DSH 本地状态：工作区技能是交付物，必须入库
-.dsh/*
-!.dsh/skills/
-!.dsh/skills/**
+# DSH 本地状态：技能由插件 UI 安装到具体工作区的 .dsh/skills，不入库
+.dsh/

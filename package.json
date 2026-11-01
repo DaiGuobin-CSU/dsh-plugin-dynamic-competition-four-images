@@ -1,18 +1,24 @@
 {
   "name": "dsh-plugin-dynamic-competition-four-images",
-  "version": "1.1.0",
-  "description": "动态竞争·四象模型技能的工作区交付插件：按 config.workspaces 配置，仅在指定工作区提供该技能，不再写入全局技能目录。",
+  "version": "1.2.0",
+  "description": "动态竞争·四象模型技能插件：插件全局安装，技能在「设置 → 插件」里按工作区选择性添加，只写入你选择的工作区。",
   "type": "module",
   "main": "index.js",
   "exports": {
     ".": "./index.js",
+    "./client": "./client.js",
     "./cordis.patch.yml": "./cordis.patch.yml",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg",
     "./package.json": "./package.json"
   },
   "files": [
     "index.js",
+    "client.js",
     "cordis.patch.yml",
-    ".dsh",
+    "skills",
+    "locale/*.json",
+    "icon.svg",
     "README.md",
     "LICENSE"
   ],
@@ -34,6 +40,10 @@
   "dsh": {
     "bundle": {
       "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "immediately": true
     }
   },
   "author": "",

@@ -1,17 +1,8 @@
 # dsh-plugin-dynamic-competition-four-images bundle patch.
 #
-# 该插件只按 config.workspaces 指定的工作区提供「动态竞争·四象模型」技能，
-# 不注册全局技能。
-#
-# 在 profile 的 cordis.patch.yml 里覆盖本行的 config 即可启用指定工作区：
-#
-#   - id: dynamic-competition-four-images
-#     config:
-#       workspaces:
-#         - D:\Path\To\Your\Workspace
-#
+# 插件本身全局安装；技能不会自动出现在任何工作区。
+# 用户在「设置 → 插件 → 四象模型」页签里选择目标工作区，点击“添加到工作区”，
+# 宿主才把技能写入 <workspace>/.dsh/skills/<name>/。
 - insert:
     - id: dynamic-competition-four-images
       name: dsh-plugin-dynamic-competition-four-images
-      config:
-        workspaces: []

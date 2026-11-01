@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Four Images">
+  <rect width="64" height="64" rx="14" fill="#0f172a"/>
+  <g fill="none" stroke="#e6edf7" stroke-width="2" opacity="0.85">
+    <rect x="14" y="14" width="16" height="16" rx="4"/>
+    <rect x="34" y="14" width="16" height="16" rx="4"/>
+    <rect x="14" y="34" width="16" height="16" rx="4"/>
+    <rect x="34" y="34" width="16" height="16" rx="4"/>
+  </g>
+  <path d="M22 22h.01" stroke="#7dd3fc" stroke-width="8" stroke-linecap="round"/>
+  <path d="M42 22h.01" stroke="#fbbf24" stroke-width="8" stroke-linecap="round"/>
+  <path d="M22 42h.01" stroke="#f87171" stroke-width="8" stroke-linecap="round"/>
+  <path d="M42 42h.01" stroke="#34d399" stroke-width="8" stroke-linecap="round"/>
+</svg>
