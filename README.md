@@ -82,7 +82,7 @@ dsh-plugin-dynamic-competition-four-images/
 ├── client.js                 # 客户端：设置 → 插件 → 四象模型 页签
 ├── cordis.patch.yml          # bundle 行
 ├── locale/{zh,en}.json       # 插件显示名与描述
-├── icon.svg                  # 插件图标
+├── icon.png                  # 插件图标
 ├── package.json              # dsh.bundle.patch + dsh.client
 ├── test/skill-installer.test.mjs
 ├── skills/dynamic-competition-analysis-four-images-model/
