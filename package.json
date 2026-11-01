@@ -1,14 +1,41 @@
 {
   "name": "dsh-plugin-dynamic-competition-four-images",
-  "version": "1.0.0",
-  "description": "DSH plugin for dynamic competition four images",
+  "version": "1.1.0",
+  "description": "动态竞争·四象模型技能的工作区交付插件：按 config.workspaces 配置，仅在指定工作区提供该技能，不再写入全局技能目录。",
+  "type": "module",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "exports": {
+    ".": "./index.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
   },
-  "keywords": [
-    "dsh-plugin"
+  "files": [
+    "index.js",
+    "cordis.patch.yml",
+    ".dsh",
+    "README.md",
+    "LICENSE"
   ],
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "skill",
+    "workspace-skill",
+    "competition"
+  ],
+  "engines": {
+    "node": ">=22",
+    "dsh": ">=0.2.1-rc.5"
+  },
+  "scripts": {
+    "test": "node --test test/"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
   "author": "",
-  "license": "ISC"
+  "license": "MIT"
 }
