@@ -32,7 +32,7 @@ DSH 的 profile 默认启用 pnpm 的 `minimumReleaseAge`（1440 分钟 = 24 小
 - **想立刻用上新版本**：在插件页重新安装并选择该版本，或用「包名@版本号」安装：
 
   ```powershell
-  dsh plugin --profile desktop add dsh-plugin-dynamic-competition-four-images@1.2.0
+  dsh plugin --profile desktop add dsh-plugin-dynamic-competition-four-images@1.2.1
   # PATH 里没有 dsh 时，用 DSH 安装目录下的 resources\runtime\cli\bin\dsh.cmd
   ```
 
@@ -40,7 +40,7 @@ DSH 的 profile 默认启用 pnpm 的 `minimumReleaseAge`（1440 分钟 = 24 小
 
   ```yaml
   minimumReleaseAgeExclude:
-    - dsh-plugin-dynamic-competition-four-images@1.2.0
+    - dsh-plugin-dynamic-competition-four-images@1.2.1
   ```
 
 - **不急的话**：等 24 小时后重新安装即可，不需要改任何配置。
