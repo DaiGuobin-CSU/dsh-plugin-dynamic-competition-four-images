@@ -24,6 +24,28 @@
    `https://rootandsource.github.io/dsh-plugin-dynamic-competition-four-images/plugin-index/index.json`
 2. 搜索「动态竞争」或「四象」，点击卡片安装并启用，然后重启 DSH。
 
+## ⬆️ 版本与「发布年龄」窗口
+
+DSH 的 profile 默认启用 pnpm 的 `minimumReleaseAge`（1440 分钟 = 24 小时）：**发布不满 24 小时的版本默认不参与安装解析**。所以按包名安装时，刚发布的新版本可能被跳过，装到上一个满足条件的版本——插件页显示的版本号因此可能比刚发布的版本旧。
+
+- **怎么看当前版本**：**设置 → 插件 → 四象模型** 页签标题下方会显示已装版本；若 npm 上已有更新的版本，会额外提示「有新版本 x.y.z」，并说明原因与处理方式。
+- **想立刻用上新版本**：在插件页重新安装并选择该版本，或用「包名@版本号」安装：
+
+  ```powershell
+  dsh plugin --profile desktop add dsh-plugin-dynamic-competition-four-images@1.2.0
+  # PATH 里没有 dsh 时，用 DSH 安装目录下的 resources\runtime\cli\bin\dsh.cmd
+  ```
+
+  若指定版本仍被拦截，在 profile 的 `pnpm-workspace.yaml` 里给该版本加一条豁免，再重装：
+
+  ```yaml
+  minimumReleaseAgeExclude:
+    - dsh-plugin-dynamic-competition-four-images@1.2.0
+  ```
+
+- **不急的话**：等 24 小时后重新安装即可，不需要改任何配置。
+- 无论哪种方式，装完都要**重启 DSH** 才会加载新版本代码。
+
 ## 🧩 把技能添加到工作区（UI）
 
 打开 **设置 → 插件 → 四象模型** 页签：
@@ -57,13 +79,13 @@ node test/skill-installer.test.mjs   # 受限沙箱下请直接运行单文件�
 npm pack --dry-run                   # 确认 index.js / client.js / skills / locale / icon 随包发布
 ```
 
-测试覆盖：frontmatter 解析、技能发现（目录名与 name 一致）、工作区路径校验、文件复制/状态判定（缺失、过期、最新、保留工作区额外文件）、桥路由的 loopback 与只读校验、错误码。
+测试覆盖：frontmatter 解析、技能发现（目录名与 name 一致）、工作区路径校验、文件复制/状态判定（缺失、过期、最新、保留工作区额外文件）、桥路由的 loopback 与只读校验、错误码、版本接口与最新版本查询的缓存/失败降级。
 
 ## 📁 目录结构
 
 ```
 dsh-plugin-dynamic-competition-four-images/
-├── index.js                  # 宿主：技能发现 + loopback 桥（describe / install）
+├── index.js                  # 宿主：技能发现 + loopback 桥（describe / install / versions）
 ├── client.js                 # 客户端：设置 → 插件 → 四象模型 页签
 ├── cordis.patch.yml          # bundle 行
 ├── locale/{zh,en}.json       # 插件显示名与描述

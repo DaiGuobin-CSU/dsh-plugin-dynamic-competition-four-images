@@ -45,6 +45,9 @@ window.__ModuleLoader__.load({
       'error.noWorkspace': '请先选择一个工作区',
       'error.bridge': '宿主桥不可用，请重启 DSH 后重试',
       version: '版本 {version}',
+      'version.update': '有新版本 {latest}（当前 {version}）',
+      'version.hint':
+        '装到旧版本时，通常是 DSH 的「发布年龄」策略：发布不满 24 小时的版本默认不参与安装解析。可在插件页选择 {latest} 重新安装，或等 24 小时后再装；升级后需重启 DSH。',
       note: '重复添加只会覆盖有变化的文件；删除工作区里的该目录即可移除技能。',
     }
 
@@ -75,6 +78,9 @@ window.__ModuleLoader__.load({
       'error.noWorkspace': 'Choose a workspace first',
       'error.bridge': 'Host bridge unavailable; restart DSH and retry',
       version: 'Version {version}',
+      'version.update': 'Version {latest} is available (installed {version})',
+      'version.hint':
+        'An older version was installed because of the DSH release-age policy: versions published in the last 24 hours are skipped during installation. Reinstall choosing {latest} in the plugin page, or retry after 24 hours; restart DSH after upgrading.',
       note: 'Re-adding only overwrites files that changed; delete that folder in the workspace to remove the skill.',
     }
 
@@ -87,6 +93,25 @@ window.__ModuleLoader__.load({
 
     function format(template, params) {
       return template.replace(/\{(\w+)\}/g, (whole, key) => (params && key in params ? String(params[key]) : whole))
+    }
+
+    /** 比较版本号：left 大于 right 返回正数；只比数字段，带预发布后缀者视为更低。 */
+    function compareVersions(left, right) {
+      const core = (value) =>
+        String(value)
+          .split('-')[0]
+          .split('.')
+          .map((part) => Number.parseInt(part, 10) || 0)
+      const a = core(left)
+      const b = core(right)
+      for (let index = 0; index < Math.max(a.length, b.length); index += 1) {
+        const diff = (a[index] ?? 0) - (b[index] ?? 0)
+        if (diff !== 0) return diff
+      }
+      const preA = String(left).includes('-')
+      const preB = String(right).includes('-')
+      if (preA !== preB) return preA ? -1 : 1
+      return 0
     }
 
     /** 调宿主桥；返回 value，失败抛错。 */
@@ -244,6 +269,7 @@ window.__ModuleLoader__.load({
           const [path, setPath] = React.useState('')
           const [skills, setSkills] = React.useState([])
           const [version, setVersion] = React.useState('')
+          const [latest, setLatest] = React.useState('')
           const [error, setError] = React.useState(null)
           const [busy, setBusy] = React.useState(false)
           const [picking, setPicking] = React.useState(false)
@@ -270,6 +296,21 @@ window.__ModuleLoader__.load({
               cancelled = true
             }
           }, [path, refresh, t])
+
+          // 版本信息单独取：宿主会顺带去 npm registry 查最新版本，失败时静默降级。
+          React.useEffect(() => {
+            let cancelled = false
+            call('versions', {})
+              .then((value) => {
+                if (cancelled || value === null || typeof value !== 'object') return
+                if (typeof value.version === 'string' && value.version !== '') setVersion(value.version)
+                setLatest(typeof value.latestVersion === 'string' ? value.latestVersion : '')
+              })
+              .catch(() => {})
+            return () => {
+              cancelled = true
+            }
+          }, [])
 
           const pickDirectory = async () => {
             const service = uiWorkspace()
@@ -338,6 +379,34 @@ window.__ModuleLoader__.load({
                     { key: 'version', style: { margin: '4px 0 0', fontSize: 12, color: 'var(--dsw-alias-state-idle-primary)' } },
                     format(t('version'), { version }),
                   ),
+              latest !== '' && version !== '' && compareVersions(latest, version) > 0
+                ? h(
+                    'div',
+                    {
+                      key: 'update',
+                      style: {
+                        marginTop: 8,
+                        padding: '8px 10px',
+                        borderRadius: 8,
+                        border: '1px solid var(--dsw-alias-state-warn-primary)',
+                        display: 'grid',
+                        gap: 4,
+                      },
+                    },
+                    [
+                      h(
+                        'div',
+                        { key: 'head', style: { fontSize: 13, fontWeight: 600, color: 'var(--dsw-alias-state-warn-primary)' } },
+                        format(t('version.update'), { latest, version }),
+                      ),
+                      h(
+                        'div',
+                        { key: 'hint', style: { fontSize: 12, lineHeight: 1.6, color: 'var(--dsw-alias-label-secondary)' } },
+                        format(t('version.hint'), { latest, version }),
+                      ),
+                    ],
+                  )
+                : null,
             ]),
 
             h('div', { key: 'card', style: cardStyle }, [

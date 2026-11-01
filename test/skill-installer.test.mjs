@@ -8,6 +8,7 @@ import {
   SKILLS_ROOT,
   copySkillTo,
   createBridgeRoutes,
+  fetchLatestVersion,
   isLoopbackRequest,
   parseSkillMarkdown,
   readSkills,
@@ -171,6 +172,56 @@ test('桥路由：install 校验参数并返回明确错误码', async (t) => {
   const unknownSkill = await callRoute(install, makeRequest({ body: { workspacePath: workspace, skillName: 'not-a-skill' } }))
   assert.equal(unknownSkill.status, 400)
   assert.equal(unknownSkill.payload.code, 'skill-not-found')
+})
+
+test('桥路由：versions 返回本地版本与 npm 最新版本', async (t) => {
+  const { root } = await makeSkillSource(t)
+  const routes = createBridgeRoutes({ skillsRoot: root, latestResolver: async () => '9.9.9' })
+  const versions = findRoute(routes, '/versions')
+  assert.ok(versions)
+  const response = await callRoute(versions, makeRequest({ body: {} }))
+  assert.equal(response.status, 200)
+  assert.equal(response.payload.value.name, 'dsh-plugin-dynamic-competition-four-images')
+  assert.match(response.payload.value.version, /^\d+\.\d+\.\d+$/)
+  assert.equal(response.payload.value.latestVersion, '9.9.9')
+})
+
+test('桥路由：最新版本查不到时降级为 null', async (t) => {
+  const { root } = await makeSkillSource(t)
+  const routes = createBridgeRoutes({
+    skillsRoot: root,
+    latestResolver: async () => {
+      throw new Error('offline')
+    },
+  })
+  const response = await callRoute(findRoute(routes, '/versions'), makeRequest({ body: {} }))
+  assert.equal(response.status, 200)
+  assert.equal(response.payload.value.latestVersion, null)
+})
+
+test('fetchLatestVersion 读取 registry 的 version 字段并命中缓存', async () => {
+  const cache = { at: 0, version: undefined }
+  let calls = 0
+  const fetcher = async (url) => {
+    calls += 1
+    assert.match(url, /^https:\/\/registry\.npmjs\.org\/dsh-plugin-dynamic-competition-four-images\/latest$/)
+    return { ok: true, json: async () => ({ version: '3.4.5' }) }
+  }
+  assert.equal(await fetchLatestVersion({ cache, fetch: fetcher, now: 1000 }), '3.4.5')
+  assert.equal(await fetchLatestVersion({ cache, fetch: fetcher, now: 1001 }), '3.4.5')
+  assert.equal(calls, 1, '30 分钟内复用缓存')
+})
+
+test('fetchLatestVersion 失败时返回 undefined 并缓存失败结果', async () => {
+  const cache = { at: 0, version: undefined }
+  let calls = 0
+  const fetcher = async () => {
+    calls += 1
+    return { ok: false, status: 503, json: async () => ({}) }
+  }
+  assert.equal(await fetchLatestVersion({ cache, fetch: fetcher, now: 1000 }), undefined)
+  assert.equal(await fetchLatestVersion({ cache, fetch: fetcher, now: 2000 }), undefined)
+  assert.equal(calls, 1, '失败结果在 5 分钟内不重试')
 })
 
 test('桥路由只接受 loopback POST', async (t) => {

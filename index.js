@@ -2,10 +2,11 @@
  * dsh-plugin-dynamic-competition-four-images — 宿主半边
  *
  * 插件本身安装在 DSH profile（全局）。它不注册任何全局技能，也不自动把技能
- * 注入工作区；只提供两个 loopback 桥接口，供 Client 半边的设置页使用：
+ * 注入工作区；只提供三个 loopback 桥接口，供 Client 半边的设置页使用：
  *
  *   POST /api/dsh-plugin-dynamic-competition-four-images/describe
  *   POST /api/dsh-plugin-dynamic-competition-four-images/install
+ *   POST /api/dsh-plugin-dynamic-competition-four-images/versions
  *
  * `install` 把包内 `.dsh/skills/<name>/` 复制到用户选择的工作区
  * `<workspace>/.dsh/skills/<name>/`，此后由 DSH 原生 filesystem provider 以
@@ -52,6 +53,7 @@ export function apply(ctx) {
 /** 组出桥路由（供 webServer.register 与单测使用）。 */
 export function createBridgeRoutes(options = {}) {
   const skillsRoot = options.skillsRoot ?? SKILLS_ROOT
+  const latestResolver = options.latestResolver ?? (() => fetchLatestVersion())
   return [
     defineRoute('/describe', async (body) => {
       const skills = await readSkills(skillsRoot)
@@ -88,6 +90,25 @@ export function createBridgeRoutes(options = {}) {
         written: copied.written,
         unchanged: copied.unchanged,
         total: copied.total,
+      }
+    }),
+
+    /**
+     * 版本信息：本地已装版本 + npm 上的最新版本。
+     * 最新版本查不到时返回 null，Client 半边静默降级（只显示本地版本）。
+     */
+    defineRoute('/versions', async () => {
+      const identity = await packageIdentity()
+      let latest
+      try {
+        latest = await latestResolver()
+      } catch {
+        latest = undefined
+      }
+      return {
+        name: identity.name,
+        version: identity.version,
+        latestVersion: typeof latest === 'string' && latest !== '' ? latest : null,
       }
     }),
   ]
@@ -178,14 +199,59 @@ export async function resolveWorkspace(input) {
   return path
 }
 
-async function packageVersion() {
+/** npm registry 最新版本缓存：成功缓存 30 分钟，失败 5 分钟后重试。 */
+export const latestVersionCache = { at: 0, version: undefined }
+const LATEST_TTL_MS = 30 * 60 * 1000
+const LATEST_RETRY_MS = 5 * 60 * 1000
+const LATEST_TIMEOUT_MS = 4000
+const DEFAULT_PACKAGE_NAME = 'dsh-plugin-dynamic-competition-four-images'
+
+/**
+ * 查 npm registry 上本包的最新版本。
+ * 任何失败（离线、超时、非 200）都返回 undefined，由调用方降级处理。
+ */
+export async function fetchLatestVersion(options = {}) {
+  const cache = options.cache ?? latestVersionCache
+  const now = options.now ?? Date.now()
+  const ttl = cache.version === undefined ? LATEST_RETRY_MS : LATEST_TTL_MS
+  if (cache.at !== 0 && now - cache.at < ttl) return cache.version
+
+  const fetcher = options.fetch ?? globalThis.fetch
+  if (typeof fetcher !== 'function') return undefined
+  const identity = await packageIdentity()
+  try {
+    const response = await fetcher(`https://registry.npmjs.org/${encodeURIComponent(identity.name)}/latest`, {
+      headers: { accept: 'application/json' },
+      signal: AbortSignal.timeout(LATEST_TIMEOUT_MS),
+    })
+    if (!response.ok) throw new Error(`HTTP ${response.status}`)
+    const payload = await response.json()
+    const version = typeof payload?.version === 'string' && payload.version !== '' ? payload.version : undefined
+    cache.at = now
+    cache.version = version
+    return version
+  } catch {
+    cache.at = now
+    cache.version = undefined
+    return undefined
+  }
+}
+
+async function packageIdentity() {
   try {
     const raw = await readFile(join(PACKAGE_ROOT, 'package.json'), 'utf8')
     const parsed = JSON.parse(raw)
-    return typeof parsed.version === 'string' ? parsed.version : '0.0.0'
+    return {
+      name: typeof parsed.name === 'string' && parsed.name !== '' ? parsed.name : DEFAULT_PACKAGE_NAME,
+      version: typeof parsed.version === 'string' ? parsed.version : '0.0.0',
+    }
   } catch {
-    return '0.0.0'
+    return { name: DEFAULT_PACKAGE_NAME, version: '0.0.0' }
   }
+}
+
+async function packageVersion() {
+  return (await packageIdentity()).version
 }
 
 async function walkFiles(directory, prefix = '') {
